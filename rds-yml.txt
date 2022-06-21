@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+
+  tasks:
+  - name: Create rds Postgres
+    rds_instance:
+      maintenance_window: "{{ lookup('aws_ssm', '/Project-omega/{{ team }}/{{ maintenance_window }}', region='us-west-2') }}"    # /{{ region }}' ) }}"
+      vpc_security_group_ids: "{{ lookup('aws_ssm', '/Project-omega/{{ team }}/{{ vpc_security_group_ids }}', region='us-west-2') }}"
+      engine: "{{ lookup('aws_ssm', '/Project-omega/{{ team }}/{{ engine_type }}', region='us-west-2') }}"
+      instance_class: "{{ lookup('aws_ssm', '/Project-omega/{{ team }}/{{ instance_class }}', region='us-west-2') }}"
+      region: "us-west-2"
+      db_subnet_group_name: "{{ lookup('aws_ssm', '/Project-omega/{{ team }}/{{ db_subnet_group_name }}', region='us-west-2') }}"
+      allocated_storage: "{{ lookup('aws_ssm', '/Project-omega/{{ team }}/{{ allocated_storage }}', region='us-west-2') }}"
+      instance_role: "{{ lookup('aws_ssm', '/Project-omega/{{ team }}/{{ instance_role }}', region='us-west-2'
